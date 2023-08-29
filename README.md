@@ -105,6 +105,7 @@ Here are the performance metrics of the model when used on the test data:
 * True Positive Rate: 72.87%
 * True Negative Rate: 78.58%
 * Accuracy: 74.32%
+<br>
 From these metrics, our model appears to work very well!
 
 We were also able to extract the feature importances, as shown below:
