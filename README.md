@@ -98,8 +98,9 @@ The models were then hyperparameter-tuned for maximal recall. Recall was priorit
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/5abba104-f535-4ddd-8671-5e4e22f74abc)
 
 ### Final Model
-From the above results, AdaBoost was chosen as the best model to be used in the final model. The parameters of this model included: {'algorithm': 'SAMME', 'learning_rate': 1, 'n_estimators': 100}. Here is the confusion matrix of the results of the test data:
+From the above results, AdaBoost was chosen as the best model to be used in the final model. The parameters of this model included: {'algorithm': 'SAMME', 'learning_rate': 1, 'n_estimators': 100}. Here is the confusion matrix of the results of the test data: <br>
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/c0ca7f6a-6958-4938-9e90-6d665d07a014)
+<br>
 Here are the performance metrics of the model when used on the test data:
 * True Positive Rate: 72.87%
 * True Negative Rate: 78.58%
