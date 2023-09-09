@@ -1,10 +1,12 @@
 # Portfolio
 Portfolio of sample work I have engaged in as part of my wider learning and experiences
 
-Below is a brief description of some of these projects:
+## Table of Contents
+1. [shrinkage-tracker](https://github.com/abhirup-roy/Portfolio/tree/main/shrinkage-tracker)
+2. [stroke-prediction](https://github.com/abhirup-roy/Portfolio/tree/main/stroke-prediction)
+3. [ipo-algo-trading](https://github.com/abhirup-roy/Portfolio/tree/main/ipo-algo-trading)
 
-
-## [shrinkage-tracker](https://github.com/abhirup-roy/Portfolio/tree/main/shrinkage-tracker)
+## shrinkage-tracker
 This is an anonymised version of a shrinkage tracker I was involved in building as part of my internship as a data analyst. The data sources provided include extracts obtained from a data lake retrieved and modified using SQL and then exported to a CSV file. Here is a breakdown of these files:
 * _AbsenceData.csv_: This includes absence data for employees. (N.B.: Absence refers to any time spent by the employee not carrying out their official role, hence the inclusion of vehicle checks). Interestingly, an entire shift absence is denoted as starting and ending at 00:00:00. Power BI recognised this as 0 hours, so logic was put in place to recognise this as the employee's total working hours on that day. Further cleaning was carried out on the absence types, to categorise absences into 5 distinguishable categories.
 * _PT63.csv_: This file sets out the core shift hours and shift type per day. Cleaning this data included replacing the 0 values _PT63DailyWorkingHrs_ with _null_ to follow best data handling practices.
@@ -36,7 +38,7 @@ Similar Measures were then created for their respective percentages the latter 6
 >[!NOTE]
 > Each tab has filters that allow you to adjust your view of the page, which can be accessed by ctrl + clicking on the filters button on the top left of a pane and closing likewise
 
-## [stroke-prediction](https://github.com/abhirup-roy/Portfolio/tree/main/stroke-prediction)
+## stroke-prediction
 This is a classification model developed using the [stroke prediction dataset from Kaggle](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset). The dataset is a CSV file containing anonymised patient data including the following attributes:
 * Gender
 * Age
@@ -69,7 +71,7 @@ The data was also heavily biased towards patients with negative stroke diagnoses
 
 
 ### Feature Engineering/ Data Cleaning
-First, we converted our categorical data to numerical data using an Ordinal Encoder. We used an ordinal encoder as opposed to a One Hot Encoder as most of the categories seemed to follow a logical order. We also found null values for the BMI column in our data, so we used the Iterative Imputer in sci-kit learn to impute these values. After this, all continuous numerical variables were scaled using a Standard Scaler to keep a consistent range within the data that will be fed to our model. The data was then inspected for intercorrelation and columns that showed correlation >= 0.35 was removed.
+First, we converted our categorical data to numerical data using an Ordinal Encoder. We used an ordinal encoder as opposed to a One Hot Encoder as most of the categories seemed to follow a logical order. We also found null values for the BMI column in our data, so we used the Iterative Imputer in sci-kit learn to impute these values. After this, all continuous numerical variables were scaled using a Standard Scaler to keep a consistent range within the data that will be fed to our model. The data was then inspected for intercorrelation and columns that showed correlation >= 0.35 were removed.
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/c5735937-30ce-4936-8d21-e857d473abb9)
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/dfe632bf-9054-41dc-b150-57664c53a3db)
 
@@ -78,7 +80,7 @@ First, we converted our categorical data to numerical data using an Ordinal Enco
 We then separated the data into training, validation and test splits - the training data was split using stratified sampling to ensure there was a sufficient sample of positive stroke diagnoses to train the model on. To reduce the bias in our data towards patients with negative stroke diagnoses, we oversampled our data using Sklearn's Synthetic Minority Oversampling Technique or SMOTE. 
 
 ### Model Selection
-Initially, we tested our preprocessed data on a variety of naive classification models, including:
+Initially, we tested our preprocessed data on a variety of naive classification models, including: 
 1. KNeighborsClassifier
 2. LinearSVC
 3. NuSVC
@@ -112,3 +114,50 @@ We were also able to extract the feature importances, as shown below:
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/ee435557-ad0e-454f-afc7-1834563985b4)
 
 It was interesting to see residence_type appear in the top 5 features used for our model, but this appears to be corroborated by research - with [rural patients more likely to develop ischemic strokes than urban patients in Northern China](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6571368/#R5). 
+
+## ipo-algo-trader
+
+This project is aimed at testing algorithmic trading using reinforcement learning models via OpenAI's gymnasium toolkit, utilising the gym_anytrading environment. We will examine the effectiveness of these trades using the initial 100 days of trading after an IPO, specifically on the London Stock Exchange. IPOs are often very volatile in the first months of trading, making this an interesting test of the algorithms' abilities to produce results in these volatile times.  For this project, we utilised the Deliveroo stock, which was labelled by FT as the (worst IPO in London's history)[https://www.ft.com/content/bdf6ac6b-46b5-4f7a-90db-291d7fd2898d]. 
+<br>
+4 models were tested:
+* gym_anytrading base RL model
+* A2C (from OpenAI's stable-baslines3)
+* PPO (from OpenAI's stable-baslines3)
+* DQN (from from OpenAI's stable-baslines3)
+
+Via ACF analysis on the adjusted close prices, it appeared that 7 days was the optimal timestep to be used for our models:
+![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/9128828b-9eb9-4128-b6b6-524c477e8bb5)
+
+The results for each models are summarised below:
+
+|   Model      |    Returns |
+|    ---       |     ---    |
+|   `Base`     |  -15.69%   |
+|    `A2C`     |  -12.18%   |
+|    `PPO`     |    2.49%   |
+|    `DQN`     |    55.16%  |
+
+![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/27902d64-9de4-4592-8cac-aa5245683986)
+
+
+### A2C 
+A2C model has 2 main components: an actor (carrying out the act of shorting or buying stock), whereas the critic provides feedback on each action (in this case based on each buy or short). This creates a 'dialogue' improving performances at each timestep. Due to the variable nature of the data being used, the stochastic version of the model was opted for instead of the deterministic model. The performance for 10 runs is displayed below:<br>
+![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/caa74ea6-234b-466d-8b99-42a3208a22de) <br>
+A2C, despite providing a 12.18% loss on average, performed better than the base model and appeared to improve its returns towards the latter stages of each run. Hence this model may produce better results over a longer period. However, for the 100-day period we were looking at, this model was ineffective.
+
+### PPO 
+PPO stands for Proximal Policy Optimization. In PPO there is an actor and critic as in A2C, but the actor has policies (almost like a rulebook), which they follow. PPO makes small changes to the actor's policy to prevent large, aggressive changes, which in turn could cause instability. <br>
+
+![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/0225d50d-2ce8-4a19-8bfd-ce4604a6ff63)
+
+<br>
+This strategy appeared to work, producing an average profit of 2.49% across 10 runs. In runs where losses were made, these were often small losses. 
+
+### DQN
+Deep Q-Network uses a deep neural network to approximate Q-Values. Q-values are a metric that estimates the potential reward of taking an action. This model appears to work through only taking long positions in the stock (see [DQN Renders](https://github.com/abhirup-roy/Portfolio/tree/main/ipo-algo-trading/renders/dqn ). This could potentially have negative consequences for both the trader and the issuer. With large long positions, there are increased liquidity risks, particularly with newly placed stocks. Large long positions could also affect the price of the stock and potentially raise regulatory actions. This makes this model unviable
+
+# Conclusion and Next Steps
+From our tests, we have found that PPO is the best model to use to algorithmically trade in the first 100 days of trading of a newly placed stock. To improve the quality of this research, in further commits, the following will be added:
+* Hyperparameter tuning for models
+* Testing of models on other IPO stocks
+* Adding extra features for prediction
