@@ -8,10 +8,10 @@ This project is aimed at testing algorithmic trading using reinforcement learnin
 * PPO (from OpenAI's stable-baslines3)
 * DQN (from from OpenAI's stable-baslines3)
 
-Via ACF analysis on the adjusted close prices, it appeared that 7 days was the optimal timestep to be used for our models:
+Via ACF analysis on the adjusted close prices, it appeared that 7 days was the optimal window size to be used for our models:
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/9128828b-9eb9-4128-b6b6-524c477e8bb5)
 
-The results for each models are summarised below:
+The results for each model are summarised below:
 
 |   Model      |    Returns |
 |    ---       |     ---    |
@@ -24,7 +24,7 @@ The results for each models are summarised below:
 
 
 ## A2C 
-A2C model has 2 main components: an actor (carrying out the act of shorting or buying stock), whereas the critic provides feedback on each action (in this case based on each buy or short). This creates a 'dialogue' improving performances at each timestep. Due to the variable nature of the data being used, the stochastic version of the model was opted for instead of the deterministic model. The performance for 10 runs is displayed below:<br>
+The A2C model has 2 main components: an actor (carrying out the act of shorting or buying stock), and the critic provides feedback on each action (in this case based on each buy or short). This creates a 'dialogue' improving performances at each timestep. Due to the variable nature of the data being used, the stochastic version of the model was opted for instead of the deterministic model. The performance for 10 runs is displayed below:<br>
 ![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/caa74ea6-234b-466d-8b99-42a3208a22de) <br>
 A2C, despite providing a 12.18% loss on average, performed better than the base model and appeared to improve its returns towards the latter stages of each run. Hence this model may produce better results over a longer period. However, for the 100-day period we were looking at, this model was ineffective.
 
