@@ -1,163 +1,41 @@
 # Portfolio
 Portfolio of sample work I have engaged in as part of my wider learning and experiences
 
-## Table of Contents
-1. [shrinkage-tracker](https://github.com/abhirup-roy/Portfolio/tree/main/shrinkage-tracker)
-2. [stroke-prediction](https://github.com/abhirup-roy/Portfolio/tree/main/stroke-prediction)
-3. [ipo-algo-trading](https://github.com/abhirup-roy/Portfolio/tree/main/ipo-algo-trading)
+## Projects
+* [shrinkage-tracker](https://github.com/abhirup-roy/Portfolio/tree/main/shrinkage-tracker)
+* [stroke-prediction](https://github.com/abhirup-roy/Portfolio/tree/main/stroke-prediction)
+* [ipo-algo-trading](https://github.com/abhirup-roy/Portfolio/tree/main/ipo-algo-trading)
 
-## shrinkage-tracker
-This is an anonymised version of a shrinkage tracker I was involved in building as part of my internship as a data analyst. The data sources provided include extracts obtained from a data lake retrieved and modified using SQL and then exported to a CSV file. Here is a breakdown of these files:
-* _AbsenceData.csv_: This includes absence data for employees. (N.B.: Absence refers to any time spent by the employee not carrying out their official role, hence the inclusion of vehicle checks). Interestingly, an entire shift absence is denoted as starting and ending at 00:00:00. Power BI recognised this as 0 hours, so logic was put in place to recognise this as the employee's total working hours on that day. Further cleaning was carried out on the absence types, to categorise absences into 5 distinguishable categories.
-* _PT63.csv_: This file sets out the core shift hours and shift type per day. Cleaning this data included replacing the 0 values _PT63DailyWorkingHrs_ with _null_ to follow best data handling practices.
-* _TeamList.csv_: This file (pretty self-explanatory) lists the team members and their details (with GDPR protocols followed of course!). In order to allow this file to "speak to" the _PT63.csv_ file, the valid date range was expanded to new rows of daily dates per employee. However, as these employees were permanent and as a result, their end dates were set to 31/12/9999. So instead of creating tens of millions of new rows, a proxy date in the future was used.
+## Descriptions
 
-### Back-end (Power Query M) methodology
-After cleaning the data, _PT63.csv_ was merged onto _TeamList.csv_ to establish a consolidated 'timetable' for all employees. A custom ID key was created for both queries to allow a relationship between this and the absence data. 
+### shrinkage-tracker
+This dashboard is an adaptation of a dashboard I developed during a data analytics internship. This is a Power BI dashboard which visualises workforce shrinkage using a variety of views, which enables managers to plan jobs optimally. 3 data sources are used: 
+* `AbsenceData.csv`
+* `PT63.csv`
+* `TeamList.csv`
+<br>
+Included in the folder are the CSV files mentioned above, the `.pbix` file (for dynamic viewing) and the `.pdf` file for static viewing.
 
-### Front-end (DAX) methodology
-A many-to-one relationship was created between the Absence data and the consolidated team shift data. Measures were then created for:
-* Shift Hours
-* Annual Leave
-* Training
-* Sickness
-* Vehicle Checks
-* Other
-* Total Shrinkage
+### stroke-prediction
+In this project, I developed a classification model to predict whether a patient will suffer a stroke, using the [stroke prediction dataset from Kaggle](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset). In the `.ipynb` file, I cover the data extraction, cleaning, feature engineering and model development. 11 models were tested and cross-validated and of these, the best-performing 6 were hyper-paramater tuned. Of these, the best model was the `AdaBoostClassifier`. This model returned the following metrics:
+* `Accuracy`: 74%
+* `Recall`: 76%
+* `True Positive Rate`: 73%
+* `True Negative Rate`: 79%
+<br>
+This folder includes the data source as a `.csv` file and the Jupyter Notebook (`.ipynb` file) with the data extraction, cleaning, feature engineering and model development as well as the results.
+
+### ipo-algo-trading
+This project aimed to test several reinforcement learning models in trading stocks in the first 100 days after its IPO. For the initial test, the Deliveroo (`ROO.L`) stock was used, particularly due to the [negative news coverage around this IPO](https://www.ft.com/content/bdf6ac6b-46b5-4f7a-90db-291d7fd2898d). To do this, OpenAI's `gymnasium` was used in conjunction with the `gym_anytrading` environment. The models that were tested in this environment alongside the `gym_anytrading` base model, obtained from OpenAI's `stable-baselines3` were:
+1. `A2C` (Advantage Actor-Critc)
+2. `PPO` (Proximal Policy Optimisation)
+3. `DQN` (Deep Q-Network)
+<br>
+
+Summary of performance:
+* `gym_anytrading` base model: Returned a **15.69% loss**
+* `A2C`: Returned a **12.19% loss**
+* `PPO`: Returned a **2.49% profit** (this was the best model)
+* `DQN`: Returned a **55.16% profit** - this value is misleading as the algorithm only took long positions after an initial short position (this was the worst model)
+
   
-Similar Measures were then created for their respective percentages the latter 6 of these measures. Due to the nature of the data, shrinkage hours were not necessarily set to be equal to the shift hours, so logic was put in place to correct this using another Measure. This ensures visuals show accurate values for shrinkage.
-
-### Page breakdown
-* **Headline View**: This tab shows a high-level overview of shrinkage over the time range the data covers
-* **County/Region View**: This tab shows a matrix of shrinkage and county, which uses conditional formatting to highlight days when shrinkage is particularly high for any region
-* **Gantt**: This tab gives a Gantt chart of shift type and shrinkage, allowing planners to view availability for any day
-* **Short Notice Shrinkage**: This tab shows the number of occurrences and hours lost for short notice shrinkage. This allows planners and managers to pinpoint why short-notice shrinkages are occurring and whether there are any 'repeat offenders
-* **Sickness Occurences**: This tab allows managers to see if there are any patterns in illnesses occurring over the year. Due to the size of this dataset, this graph isn't very telling, but in the original project, this tab was used for planning ahead for a potential incoming rise in illnesses (e.g. the December period)
-* **Team List**: This showed the overall team list. Again, this isn't as helpful here given the size of the dataset sample
-
->[!NOTE]
-> Each tab has filters that allow you to adjust your view of the page, which can be accessed by ctrl + clicking on the filters button on the top left of a pane and closing likewise
-
-## stroke-prediction
-This is a classification model developed using the [stroke prediction dataset from Kaggle](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset). The dataset is a CSV file containing anonymised patient data including the following attributes:
-* Gender
-* Age
-* Hypertension
-* Heart Disease
-* Ever Married?
-* Work Type
-* Residence Type
-* Average Blood Glucose Level
-* BMI
-This data was used to predict whether the patient in question was likely to experience a stroke.
-
-
-### Data Preparation
-The data was loaded in via Pandas in Python. From explanatory analysis we identified that the data was biased towards: 
-* Females
-* Individuals not exhibiting hypertension
-* Individuals not exhibiting heart disease
-* Married individuals
-* Individuals working in the private sector
-* Non-smokers
-
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/8bbb0a6b-4b87-49f9-ad89-449993941ce1)
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/edd00693-7253-4129-a0a1-1d90e4e3b82c)
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/0e3568f3-191f-48ad-bacf-db00c7be2a03)
-
-The data was also heavily biased towards patients with negative stroke diagnoses
-
-
-
-
-### Feature Engineering/ Data Cleaning
-First, we converted our categorical data to numerical data using an Ordinal Encoder. We used an ordinal encoder as opposed to a One Hot Encoder as most of the categories seemed to follow a logical order. We also found null values for the BMI column in our data, so we used the Iterative Imputer in sci-kit learn to impute these values. After this, all continuous numerical variables were scaled using a Standard Scaler to keep a consistent range within the data that will be fed to our model. The data was then inspected for intercorrelation and columns that showed correlation >= 0.35 were removed.
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/c5735937-30ce-4936-8d21-e857d473abb9)
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/dfe632bf-9054-41dc-b150-57664c53a3db)
-
-
-<br>
-We then separated the data into training, validation and test splits - the training data was split using stratified sampling to ensure there was a sufficient sample of positive stroke diagnoses to train the model on. To reduce the bias in our data towards patients with negative stroke diagnoses, we oversampled our data using Sklearn's Synthetic Minority Oversampling Technique or SMOTE. 
-
-### Model Selection
-Initially, we tested our preprocessed data on a variety of naive classification models, including: 
-1. KNeighborsClassifier
-2. LinearSVC
-3. NuSVC
-4. DecisionTreeClassifier
-5. RandomForestClassifier
-6. AdaBoostClassifier
-7. GradientBoostingClassifier
-8. GaussianNB
-9. LogisticRegression
-10. LinearDiscriminantAnalysis
-11. QuadraticDiscriminantAnalysis
-We only kept the models, which yielded accuracy scores or recall scores greater than 70%:
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/415263aa-c7e4-41fa-8603-f0e043dadcd8)
-
-The models were then hyperparameter-tuned for maximal recall. Recall was prioritised over precision as given the scenario of the project, it is more imperative to reduce false negatives than false positives. The overall results of the model tests are shown below:
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/ed7c3df5-8fc6-410b-b29f-c9d80c8b8988)
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/5abba104-f535-4ddd-8671-5e4e22f74abc)
-
-### Final Model
-From the above results, AdaBoost was chosen as the best model to be used in the final model. The parameters of this model included: {'algorithm': 'SAMME', 'learning_rate': 1, 'n_estimators': 100}. Here is the confusion matrix of the results of the test data: <br>
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/c0ca7f6a-6958-4938-9e90-6d665d07a014)
-<br>
-Here are the performance metrics of the model when used on the test data:
-* True Positive Rate: 72.87%
-* True Negative Rate: 78.58%
-* Accuracy: 74.32%
-<br>
-From these metrics, our model appears to work very well!
-
-We were also able to extract the feature importances, as shown below:
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/ee435557-ad0e-454f-afc7-1834563985b4)
-
-It was interesting to see residence_type appear in the top 5 features used for our model, but this appears to be corroborated by research - with [rural patients more likely to develop ischemic strokes than urban patients in Northern China](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6571368/#R5). 
-
-## ipo-algo-trader
-
-This project is aimed at testing algorithmic trading using reinforcement learning models via OpenAI's gymnasium toolkit, utilising the gym_anytrading environment. We will examine the effectiveness of these trades using the initial 100 days of trading after an IPO, specifically on the London Stock Exchange. IPOs are often very volatile in the first months of trading, making this an interesting test of the algorithms' abilities to produce results in these volatile times.  For this project, we utilised the Deliveroo stock, which was labelled by FT as the (worst IPO in London's history)[https://www.ft.com/content/bdf6ac6b-46b5-4f7a-90db-291d7fd2898d]. 
-<br>
-4 models were tested:
-* gym_anytrading base RL model
-* A2C (from OpenAI's stable-baslines3)
-* PPO (from OpenAI's stable-baslines3)
-* DQN (from from OpenAI's stable-baslines3)
-
-Via ACF analysis on the adjusted close prices, it appeared that 7 days was the optimal timestep to be used for our models:
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/9128828b-9eb9-4128-b6b6-524c477e8bb5)
-
-The results for each models are summarised below:
-
-|   Model      |    Returns |
-|    ---       |     ---    |
-|   `Base`     |  -15.69%   |
-|    `A2C`     |  -12.18%   |
-|    `PPO`     |    2.49%   |
-|    `DQN`     |    55.16%  |
-
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/27902d64-9de4-4592-8cac-aa5245683986)
-
-
-### A2C 
-A2C model has 2 main components: an actor (carrying out the act of shorting or buying stock), whereas the critic provides feedback on each action (in this case based on each buy or short). This creates a 'dialogue' improving performances at each timestep. Due to the variable nature of the data being used, the stochastic version of the model was opted for instead of the deterministic model. The performance for 10 runs is displayed below:<br>
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/caa74ea6-234b-466d-8b99-42a3208a22de) <br>
-A2C, despite providing a 12.18% loss on average, performed better than the base model and appeared to improve its returns towards the latter stages of each run. Hence this model may produce better results over a longer period. However, for the 100-day period we were looking at, this model was ineffective.
-
-### PPO 
-PPO stands for Proximal Policy Optimization. In PPO there is an actor and critic as in A2C, but the actor has policies (almost like a rulebook), which they follow. PPO makes small changes to the actor's policy to prevent large, aggressive changes, which in turn could cause instability. <br>
-
-![image](https://github.com/abhirup-roy/Portfolio/assets/66738639/0225d50d-2ce8-4a19-8bfd-ce4604a6ff63)
-
-<br>
-This strategy appeared to work, producing an average profit of 2.49% across 10 runs. In runs where losses were made, these were often small losses. 
-
-### DQN
-Deep Q-Network uses a deep neural network to approximate Q-Values. Q-values are a metric that estimates the potential reward of taking an action. This model appears to work through only taking long positions in the stock (see [DQN Renders](https://github.com/abhirup-roy/Portfolio/tree/main/ipo-algo-trading/renders/dqn ). This could potentially have negative consequences for both the trader and the issuer. With large long positions, there are increased liquidity risks, particularly with newly placed stocks. Large long positions could also affect the price of the stock and potentially raise regulatory actions. This makes this model unviable
-
-# Conclusion and Next Steps
-From our tests, we have found that PPO is the best model to use to algorithmically trade in the first 100 days of trading of a newly placed stock. To improve the quality of this research, in further commits, the following will be added:
-* Hyperparameter tuning for models
-* Testing of models on other IPO stocks
-* Adding extra features for prediction
