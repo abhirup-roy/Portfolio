@@ -37,5 +37,13 @@ Summary of performance:
 * `A2C`: Returned a **12.19% loss**
 * `PPO`: Returned a **2.49% profit** (this was the best model)
 * `DQN`: Returned a **55.16% profit** - this value is misleading as the algorithm only took long positions after an initial short position (this was the worst model)
+<br>
+Files in this folder include: `.ipynb` file with testing and comparison of models and `renders` folder with visualisations of renders of long and short positions taken by algorithms.
+<br>
+N.B: In further commits the following will be added:
+
+* Hyperparameter tuning for models
+* Testing of models on other IPO stocks
+* Adding extra features for prediction
 
   
