@@ -1,6 +1,6 @@
 # ipo-algo-trader
 
-This project is aimed at testing algorithmic trading using reinforcement learning models via OpenAI's gymnasium toolkit, utilising the gym_anytrading environment. We will examine the effectiveness of these trades using the initial 100 days of trading after an IPO, specifically on the London Stock Exchange. IPOs are often very volatile in the first months of trading, making this an interesting test of the algorithms' abilities to produce results in these volatile times.  For this project, we utilised the Deliveroo stock, which was labelled by FT as the (worst IPO in London's history)[https://www.ft.com/content/bdf6ac6b-46b5-4f7a-90db-291d7fd2898d]. 
+This project is aimed at testing algorithmic trading using reinforcement learning models via OpenAI's gymnasium toolkit, utilising the gym_anytrading environment. We will examine the effectiveness of these trades using the initial 100 days of trading after an IPO, specifically on the London Stock Exchange. IPOs are often very volatile in the first months of trading, making this an interesting test of the algorithms' abilities to produce results in these volatile times.  For this project, we utilised the Deliveroo stock, which was labelled by FT as the [worst IPO in London's history](https://www.ft.com/content/bdf6ac6b-46b5-4f7a-90db-291d7fd2898d). 
 <br>
 4 models were tested:
 * gym_anytrading base RL model
