@@ -1,0 +1,2 @@
+uvicorn main:app --reload --workers 1 --host localhost --port 8008
+
