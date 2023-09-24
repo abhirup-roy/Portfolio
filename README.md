@@ -5,7 +5,7 @@ Portfolio of sample work I have engaged in as part of my wider learning and expe
 * [shrinkage-tracker](https://github.com/abhirup-roy/Portfolio/tree/main/shrinkage-tracker)
 * [stroke-prediction](https://github.com/abhirup-roy/Portfolio/tree/main/stroke-prediction)
 * [ipo-algo-trading](https://github.com/abhirup-roy/Portfolio/tree/main/ipo-algo-trading)
-
+* [volatility-forecasting](https://github.com/abhirup-roy/Portfolio/tree/main/volatility-forecasting)
 ## Descriptions
 
 ### shrinkage-tracker
@@ -45,5 +45,13 @@ N.B: In further commits, the following will be added:
 * Testing of models on other IPO stocks
 * Adding extra features for prediction
 
+### volatility-forecasting
 
-  
+This project is a FastAPI app that allows users to load ticker data using Alpha Vantage API and predict volatility using a GARCH model. 
+The project is an adaptation of a similar project I completed as part of the WorldQuant University Applied Data Science Lab.
+
+The app has 2 main functions: fit and predict
+* fit: Loads data from AlphaVantage API to SQLite Database, fits a GARCH Model to this data and saves model
+* predict: Uses saved fitted to predict future volatility
+
+The Jupyter Notebook in this project also analyses the performance of models using conditional volatilities, residual autocorrelation analysis and walk-forward validation
